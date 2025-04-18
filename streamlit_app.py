@@ -1,8 +1,7 @@
 import os
 import streamlit as st
 from langchain.embeddings    import OpenAIEmbeddings
-from langchain.vectorstores import FAISS
-import pandas as pd
+
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
@@ -10,6 +9,9 @@ from langchain.chains.summarize import load_summarize_chain
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
+from langchain.vectorstores import FAISS
+import pandas as pd
+
 
 # ─── Set your OpenAI key directly ───────────────────────────────────────────
 os.environ["OPENAI_API_KEY"] = "sk‑proj‑AFKzFPYBje7EnWChyGsMT3BlbkFJ9zUKVY5reYvG8P8xtzjK"
