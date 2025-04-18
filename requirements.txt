@@ -6,3 +6,5 @@ pandas
 tiktoken
 python-dotenv
 langchain-community
+duckdb
+hnswlib
