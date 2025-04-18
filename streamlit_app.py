@@ -1,7 +1,9 @@
 import os
 import streamlit as st
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.vectorstores import Chroma
+from langchain.embeddings    import OpenAIEmbeddings
+from langchain.vectorstores import FAISS
+import pandas as pd
+
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
 from langchain.chains.summarize import load_summarize_chain
@@ -12,10 +14,13 @@ from langchain.chains import LLMChain
 # ─── Set your OpenAI key directly ───────────────────────────────────────────
 os.environ["OPENAI_API_KEY"] = "sk‑proj‑AFKzFPYBje7EnWChyGsMT3BlbkFJ9zUKVY5reYvG8P8xtzjK"
 
-# 1) Vector store
+# ─── Vector store via FAISS ────────────────────────────────────────────────
 emb = OpenAIEmbeddings(model="text-embedding-3-small")
-db  = Chroma(persist_directory="raskin_chroma", embedding_function=emb)
-retriever = db.as_retriever(search_kwargs={"k": 4})
+df  = pd.read_csv("raskin_post_text_renamed.csv")
+texts = df["post_text"].dropna().tolist()
+db    = FAISS.from_texts(texts, embedding=emb)
+retriever = db.as_retriever(search_kwargs={"k":4})
+
 
 # 2) Summarizer
 summ_llm   = ChatOpenAI(model_name="gpt-4o-mini", temperature=0, max_tokens=1024)
